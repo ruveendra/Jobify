@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Jobify || Home</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <!-- boostrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/assets/css/style.css">
+</head>
+
+<body>
+
+  <!-- navbar -->
+  <%- include('citizen_nav')%>
+    <!-- navbar -->
+
+
+    <!-- qualification -->
+    <section id="qualifications" class="qualifications section-bg">
+      <div class="container p-5">
+
+        <div class="container px-3" id="removed-qualifications-message-alert">
+
+        </div>
+        <% if(qualifications){%>
+          <div class="section-title ">
+            <h1 class="p-2"> View Qualifications</h1>
+          </div>
+          <div class="container p-3">
+
+            <!-- highest qualification type -->
+
+            <!-- if qualifications already exists -->
+            <% if(qualifications.highestQualificationType){%>
+              <p>My highest level of qualification :
+
+                <select class="form-select form-control form-control-lg form-select-lg mb-3 border border-secondary"
+                  id="highest-qualification-type" name="highest-qualification-type" disabled>
+                  <option value="" selected="selected" disabled="disabled">-- select one --</option>
+                  <option value="No_formal_education" <%=qualifications.highestQualificationType=='No_formal_education'
+                    ? 'selected' : '' %>>No formal education</option>
+                  <option value="Doctorate or higher" <%=qualifications.highestQualificationType=='Doctorate or higher'
+                    ? 'selected ' : '' %>>Doctorate or higher</option>
+                  <option value="Master_degree" <%=qualifications.highestQualificationType=='Master_degree' ? 'selected'
+                    : '' %>
+                    >Master's degree</option>
+                  <option value="Bachelor_degree" <%=qualifications.highestQualificationType=='Bachelor_degree'
+                    ? 'selected' : '' %>
+                    >Bachelor's degree</option>
+                  <option value="Vocational_qualification"
+                    <%=qualifications.highestQualificationType=='Vocational_qualification' ? 'selected' : '' %>
+                    >Vocational qualification</option>
+                  <option value="ol_education" <%=qualifications.highestQualificationType=='ol_education' ? 'selected'
+                    : '' %>>G.C.E
+                    Adavanced Level Certification</option>
+                  <option value="al_education" <%=qualifications.highestQualificationType=='al_education' ? 'selected'
+                    : '' %>>G.C.E
+                    Oridinary Level Certification</option>
+                  <option value="other" <%=qualifications.highestQualificationType=='other' ? 'selected' : '' %>>Other
+                  </option>
+                </select>
+
+                </fieldset>
+              </p>
+              <% }else{%>
+                <!-- insert qualfications -->
+                <p>Select highest level of qualification :</p>
+                <span></span>
+                <% }%>
+
+
+                  <!-- qualification name -->
+                  <% if(qualifications.highestQualificationName){%>
+                    <p>Select highest level of qualification :
+                      <span>
+                        <%=qualifications.highestQualificationName%>
+                      </span>
+                    </p>
+                    <% }else{%>
+                      <p>Select highest level of qualification :
+                        <span></span>
+                        <% }%>
+
+                          <!-- awarding body -->
+                          <% if(qualifications.awardingbodyInput){%>
+                            <p>Awarding body :
+                              <%=qualifications.awardingbodyInput%>
+                            </p>
+                            <% }else{%>
+                              <p>Awarding body:</p>
+                              <span></span>
+                              <% }%>
+
+                                <!-- job category -->
+                                <% if(qualifications.jobCategory){%>
+                                  <p> Job : <%=qualifications.jobCategory%>
+                                  </p>
+                                  <% }else{%>
+                                    <p>Job : <span></span> </p>
+                                    <% }%>
+
+          </div>
+          <div class="d-flex justify-content-end">
+            <div class="p-2">
+              <!-- update cv-->
+              <div class="div">
+                <a href="/citizen/dashboard/updateQualifications" class="btn btn-secondary ">
+                  <i class="bi bi-pencil-square" aria-hidden="true" style="color:#fff">
+                  </i>
+                </a>
+              </div>
+
+            </div>
+
+            <div class="p-2">
+              <!-- remove cv -->
+              <form id="remove-qualification-form" method="POST"
+                action="/citizen/dashboard/qualifications?_method=DELETE">
+                <button type="submit" value="submit" class="btn btn-danger ">
+                  <i class="bi bi-trash3" aria-hidden="true" style="color:#fff"></i>
+                </button>
+              </form>
+            </div>
+
+          </div>
+      </div>
+
+
+
+      </div>
+      <div>
+
+
+
+
+        <!-- add qualifications -->
+        <% }else{%>
+          <div class="section-title ">
+
+            <h1 class="p-2"> Add Qualifications</h1>
+          </div>
+          <div class="container px-3" id="qualifications-message-alert">
+
+          </div>
+
+
+
+          <form id="qualification-submit-form" action="citizen/dashboard/qualifications" method="POST">
+            <div class="row">
+              <div class="col-sm ">
+                <div class="icon-box">
+                  <div class="icon"><i class="bx bx-tachometer"></i></div>
+
+                  <fieldset>
+                    <label class="control-label" for="carreer ">Select highest level of
+                      qualification</label>
+                    <select class="form-select form-control form-control-lg form-select-lg mb-3 border border-secondary"
+                      id="highest-qualification-type" name="highest-qualification-type" required>
+                      <option value="" selected="selected" disabled="disabled">-- select one --</option>
+                      <option value="No_formal_education">No formal education</option>
+                      <option value="Doctorate or higher">Doctorate or higher</option>
+                      <option value="Master_degree">Master's degree</option>
+                      <option value="Bachelor_degree">Bachelor's degree</option>
+                      <option value="Vocational_qualification">Vocational qualification</option>
+                      <option value="ol_education">G.C.E Adavanced Level Certification</option>
+                      <option value="al_education">G.C.E Oridinary Level Certification</option>
+                      <option value="other">Other</option>
+                    </select>
+
+                  </fieldset>
+
+                  <div class="form-group">
+                    <label class="control-label" for="carreer ">Name of the awarded qualification</label>
+                    <div class="input-group">
+
+                      <input id="highest-qualification-name" name="highest-qualification-name" type="text"
+                        placeholder=" eg- BSc Engineering Honours, ... " autocomplete="off"
+                        class=" form-control form-control-lg input border border-secondary">
+
+                    </div>
+                  </div>
+                  <!-- Awarding body -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="awardingbody">Awarding body</label>
+                    <div class="input-group  mb-3">
+
+                      <input type="text" id="awardingbody-input" name="awardingbody-input"
+                        class="form-control form-control-lg border border-secondary affiliation-input"
+                        placeholder="eg- Plymouth Uk , ..." autocomplete="off">
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- industry -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="jobCategory">I work in...</label>
+                    <select class="form-select form-control form-control-lg form-select-lg mb-3 border border-secondary"
+                      aria-label=".form-select-lg example" id="jobCategory">
+                      <option selected="selected" disabled="disabled" value=""> Please select Job Category</option>
+                      <option value="Accounting">Accounting</option>
+                      <option value="Admin & Clerical">Admin & Clerical</option>
+                      <option value="Automotive">Automotive</option>
+                      <option value="Banking">Banking</option>
+                      <option value="Biotech">Biotech</option>
+                      <option value="Broadcast">Broadcast</option>
+                      <option value="Business Development">Business Development</option>
+                      <option value="Construction">Construction</option>
+                      <option value="Consultant">Consultant</option>
+                      <option value="Customer Service">Customer Service</option>
+                      <option value="Design">Design</option>
+                      <option value="Distribution">Distribution</option>
+                      <option value="Education">Education</option>
+                      <option value="Engineering">Engineering</option>
+                      <option value="Entry Level">Entry Level</option>
+                      <option value="Executive">Executive</option>
+                      <option value="Facilities">Facilities</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Franchise">Franchise</option>
+                      <option value="General Business">General Business</option>
+                      <option value="General Labor">General Labor</option>
+                      <option value="Government">Government</option>
+                      <option value="Grocery">Grocery</option>
+                      <option value="Health Care">Health Care</option>
+                      <option value="Hotel - Hospitality">Hotel - Hospitality</option>
+                      <option value="Human Resources">Human Resources</option>
+                      <option value="Information Technology">Information Technology</option>
+                      <option value="Installation - Maint - Repair">Installation - Maint - Repair</option>
+                      <option value="Insurance">Insurance</option>
+                      <option value="Inventory">Inventory</option>
+                      <option value="Legal">Legal</option>
+                      <option value="Legal Admin">Legal Admin</option>
+                      <option value="Management">Management</option>
+                      <option value="Manufacturing">Manufacturing</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Media - Journalism - Newspaper">Media - Journalism - Newspaper</option>
+                      <option value="Nonprofit - Social Services">Nonprofit - Social Services</option>
+                      <option value="Nurse">Nurse</option>
+                      <option value="Other">Other</option>
+                      <option value="Pharmaceutical">Pharmaceutical</option>
+                      <option value="Professional Services">Professional Services</option>
+                      <option value="Purchasing - Procurement">Purchasing - Procurement</option>
+                      <option value="QA - Quality Control">QA - Quality Control</option>
+                      <option value="Real Estate">Real Estate</option>
+                      <option value="Research">Research</option>
+                      <option value="Restaurant - Food Service">Restaurant - Food Service</option>
+                      <option value="Retail">Retail</option>
+                      <option value="Sales">Sales</option>
+                      <option value="Science">Science</option>
+                      <option value="Skilled Labor - Trades">Skilled Labor - Trades</option>
+                      <option value="Strategy - Planning">Strategy - Planning</option>
+                      <option value="Supply Chain">Supply Chain</option>
+                      <option value="Telecommunications">Telecommunications</option>
+                      <option value="Training">Training</option>
+                      <option value="Transportation">Transportation</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Warehouse">Warehouse</option>
+                    </select>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please provide a valid User Type.
+                    </div>
+                  </div>
+                  <!-- <small>Error message</small> -->
+                </div>
+              </div>
+
+              <input type="submit" value="Submit" class="btn  btn-primary btn-lg btn-block mt-5">
+          </form>
+
+          <% }%>
+      </div>
+      </div>
+
+      </div>
+    </section>
+
+
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container p-5" data-aos="fade-up">
+        <div class=container" id="message-alert">
+
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-12 col-lg-6 d-flex align-items-stretch p-3" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4 class="title"><a href="">Upload the CV </a></h4>
+              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
+                occaecati cupiditate</p>
+              <!-- display cv -->
+
+              <!-- cv upload -->
+
+              <div class="container">
+                <form action="/citizen/nid/cv" enctype="multipart/form-data" method="POST" id="cv-document-upload-form">
+                  <div class="form-group">
+                    <input type="file" class="form-control-file" accept="image/*,.pdf,.doc,.docx,application/msword"
+                      name="cv" id="cv-input">
+                    <input type="submit" value="Submit" class="btn btn-primary m-3">
+                  </div>
+                </form>
+              </div>
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-10 ">
+
+                    <% if(data.cv !=='' ){ %>
+                      CV Certificate:
+                      <span id="cv-name">
+                        <%= data.cv.cvDocPath %>
+                      </span>
+                      <br> CV Status :
+                      <span id="cv-status">
+                        <%= data.cv.cvDocStatus %>
+                      </span>
+
+                      <%} else { %>
+                        CV Certificate:
+                        <span id="cv-name">
+                        </span>
+                        <br> CV Status :
+                        <span id="cv-status">
+                        </span>
+                        <%} %>
+
+                  </div>
+                  <div class="col- 1 ">
+                    <!-- update cv-->
+
+                    <!-- <div class="div">
+                      <form id="update-cv-form">
+                        <button type="submit" class="btn btn-secondary ">
+                          <i class="bi bi-pencil-square" aria-hidden="true" style="color:#fff"></i>
+                        </button>
+                      </form>
+                      </i>
+                    </div> -->
+                  </div>
+                  <div class="col-1 ">
+                    <!-- remove cv -->
+
+                    <div class="div">
+
+                      <form id="remove-cv-form" method="POST" action="/citizen/nid/cv?_method=DELETE">
+                        <button type="submit" class="btn btn-danger ">
+                          <i class="bi bi-trash3" aria-hidden="true" style="color:#fff"></i>
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="col-12 col-lg-6 d-flex align-items-stretch p-3" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4 class="title"><a href="">Upload Birth Certificate</a></h4>
+              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla</p>
+              <br>
+
+              <form action="/citizen/nid/birthCertificate" enctype="multipart/form-data" method="POST"
+                id="birthday-document-upload-form">
+                <div class="form-group">
+                  <input type="file" class="form-control-file" name="birthCertificate" id="birthCertificate"
+                    accept="image/*,.pdf,.doc,.docx,application/msword">
+                  <input type="submit" value="Submit" class="btn btn-primary m-3">
+                </div>
+              </form>
+
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-10 ">
+                    <!-- display birthday certifcate -->
+                    <% if(data.birthcertificate !=='' ){ %>
+                      Birth Certificate :
+                      <span id="birthday-certificate-name">
+                        <%= data.birthcertificate.birthDocPath %>
+                      </span>
+                      <br>Birth Status :
+                      <span id="birthday-certificate-status">
+                        <%= data.birthcertificate.birthCertificateStatus %>
+                      </span>
+                      <%} else { %>
+                        Birth Certificate :
+                        <span id="birthday-certificate-name"></span>
+                        <br>Birth Status :
+                        <span id="birthday-certificate-status"></span>
+                        <%}%>
+                  </div>
+
+                  <div class="col- 1 ">
+                    <!-- update cv-->
+                    <!-- < <div class="div">
+                      <form id="update-upload-form">
+                        <button type="button" class="btn btn-secondary ">
+                          <i class="bi bi-pencil-square" aria-hidden="true" style="color:#fff"></i>
+                        </button>
+                      </form>
+                      </i>
+                    </div> -->
+                  </div>
+                  <div class="col-1 ">
+                    <!-- remove cv -->
+                    <div class="div">
+                      <form id="remove-birthcertificate-form">
+                        <button type="submit" class="btn btn-danger ">
+                          <i class="bi bi-trash3" aria-hidden="true" style="color:#fff"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="row pt-3">
+          <div class="col-12 col-lg-6 d-flex align-items-stretch p-3" data-aos="zoom-in" data-aos-delay="400">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4 class="title"><a href="">Certificates</a></h4>
+              <p class="description">
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                praesentium voluptatum
+              </p>
+
+              <form action="/citizen/nid/certificates" enctype="multipart/form-data" method="POST"
+                id="certificate-upload-form">
+                <div class="form-group">
+                  <input type="file" multiple='multiple' class="form-control-file" name="certificates"
+                    accept="image/*,.pdf,.doc,.docx,application/msword" name="certificates[]" id="certificates[]">
+                  <input type="submit" value="Submit" class="btn btn-primary m-3">
+                </div>
+              </form>
+
+              <!-- displaycertificates -->
+              <% if(data.certificates !=='' ){ %>
+                <p>CV Certificates :
+                  <span id="certificates-list">
+                    <ul id="certificates-ul">
+                      <% let certificatesArr=data.certificates.certificateDocs%>
+                        <%certificatesArr.forEach(ele=>{%>
+                          <li>
+                            <%=ele%>
+                          </li>
+                          <%})%>
+                    </ul>
+                  </span>
+                  <br> CV Status : <span id="certificates-status">
+                    <%=data.certificates.certificateStatus %>
+                  </span>
+                </p>
+
+                <%}else{%>
+                  <p>Certificates :
+                    <span id="certificates-list">
+                      <ul id="certificates-ul">
+
+                      </ul>
+                    </span>
+                    <br>
+                    CV Status :
+                    <span id="certificates-status"></span>
+                  </p>
+                  <%}%>
+
+
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-10 ">
+                        </div>
+                        <div class="col- 1 ">
+                          <!-- update cv-->
+                          <!-- <div class="div">
+                            <form id="update-certificates-form">
+                              <button type="submit" class="btn btn-secondary ">
+                                <i class="bi bi-pencil-square" aria-hidden="true" style="color:#fff"></i>
+                              </button>
+                            </form>
+                            </i>
+                          </div> -->
+                        </div>
+                        <div class="col-1 ">
+                          <!-- remove cv -->
+                          <div class="div">
+                            <form id="remove-certificates-form">
+                              <button type="submit" class="btn btn-danger ">
+                                <i class="bi bi-trash3" aria-hidden="true" style="color:#fff"></i>
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+
+
+
+          </div>
+
+
+
+
+    </section><!-- End Services Section -->
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+    <script src="/assets/js/citizen_uploadCvDocument.js"></script>
+    <script src="/assets/js/citizen_uploadBirthCertificate.js"></script>
+    <script src="/assets/js/citizen_Certificates.js"></script>
+    <script src="/assets/js/citizen_Dashboard.js"></script>
+</body>
+
+</html>

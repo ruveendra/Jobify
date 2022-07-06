@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Jobify || Home</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <!-- boostrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+  <!-- essentials for leaflet map -->
+  <!-- leafletjs css -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <!-- leafletjs js -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+</head>
+
+
+<body
+  style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');background-size: cover">
+
+  <!-- navbar -->
+  <%- include('citizen_nav')%>
+
+    <!-- navbar -->
+
+
+    <!-- update profile-->
+    <section class="vh-100 bg-image p-5">
+      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div class="card" style="border-radius: 15px;">
+
+                <!-- alert message :sucessfull-->
+                <div class=container" id="message-alert">
+
+                </div>
+                <!-- alert message -->
+                <div class="card-body p-5">
+                  <div class="container">
+                    <h2 class="text-uppercase text-center mb-5">My Employment</h2>
+
+
+
+                    <form action="/citizen/myEmployement" method="POST" id="my-employement-form">
+
+                      <!-- current Employee status-->
+                      <div class="form-outline mb-4">
+                        <label class="form-label" for="current-employement">Current Employee Role </label>
+                        <input type="text" id="current-employee-role" name="current-employee-role"
+                          class="form-control form-control-lg border border-secondary" />
+                        <div class="invalid-feedback"></div>
+                      </div>
+                      <!-- employee location -->
+                      <div class="form-outline mb-4">
+                        <label class="form-label" for="employed-institution">Currently Employed Institution
+                        </label>
+                        <input type="text" id="employed-institution" name="employed-institution"
+                          class="form-control form-control-lg border border-secondary" />
+                        <div class="invalid-feedback"></div>
+                      </div>
+                      <!-- building n0,street address,region and country -->
+                      <!-- <div class="form-outline mb-4">
+                        <label class="form-label" for="current-employement-location"> currently Location
+                          location</label>
+                        <input type="text" id="current-employement-location" name="current-employement-location"
+                          class="form-control form-control-lg border border-secondary" />
+                        <div class="invalid-feedback"></div>
+                      </div>
+                      <div class="form-outline mb-4"> -->
+                      <div class="form-outline mb-4">
+                        <label class="form-label" for="current-employement-address">
+                          Current Employement location Address
+                        </label>
+                        <input type="text" id="employed-building-no-location" name="employed-building-no-location"
+                          class="form-control form-control-lg border border-secondary mb-1" placeholder="building no" />
+                        <input type="text" id="employed-street-location" name="employed-street-location"
+                          class="form-control form-control-lg border border-secondary mb-1" placeholder="street" />
+                        <input type="text" id="employed-region-location" name="employed-region-location"
+                          class="form-control form-control-lg border border-secondary mb-1" placeholder="region" />
+                        <input type="text" id="employed-country-location" name="employed-country-location"
+                          class="form-control form-control-lg border border-secondary mb-1" placeholder="country" />
+                        <div class="invalid-feedback"></div>
+                      </div>
+                      <div class="invalid-feedback"></div>
+                  </div>
+
+                  <!-- submit -->
+                  <div class="form-outline mb-4">
+
+                    <input type="submit" class="btn btn-secondary btn-block " value="submit">
+
+                  </div>
+                  </form>
+                  <div id="profile-display-card">
+
+                    <% if(employmentData){%>
+                      <div class="card-body p-5" id="display-card">
+                        <!-- current Employeemenet -->
+                        <div class="form-outline mb-4">
+                          <div class="card text-center">
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <% if(employmentData.currentEmployementRole){%>
+                                  <span>
+                                    <%=employmentData.currentEmployementRole%>
+                                  </span>
+                                  <%}else{%>
+                                    <span></span>
+                                    <%}%>
+                                    -<% if(employmentData.currentEmployedInstitution){%>
+                                      <span>
+                                        <%=employmentData.currentEmployedInstitution%>
+                                          Company
+                                      </span>
+                                      <%}else{%>
+                                        <span></span>
+                                        <%}%>
+                                      </h4>
+                              <h6 class="card-subtitle mb-2">
+
+                              </h6>
+                              <p class="card-text">
+                                <% if(employmentData.currentEmployementBuildingNo){%>
+                                  <span>
+                                    <%=employmentData.currentEmployementBuildingNo%>
+                                  </span>
+                                  <%}else{%>
+                                    <span> Building No</span>
+                                    <%}%>
+                                      <% if(employmentData.currentEmployementStreet){%>
+                                        <span>
+                                          <%=employmentData.currentEmployementStreet%>,
+                                        </span>
+                                        <%}else{%>
+                                          <span>Employement Street</span>
+                                          <%}%>
+                                            <br>
+                                            <% if(employmentData.currentEmployementRegion){%>
+                                              <span>
+                                                <%= employmentData.currentEmployementRegion %>,
+                                              </span>
+                                              <%}else{%>
+                                                <span>Region,</span>
+                                                <%}%>
+                                                  <% if(employmentData.currentEmployementCountry){%>
+                                                    <span>
+                                                      <%=employmentData.currentEmployementCountry%>
+                                                    </span>
+                                                    <%}else{%>
+                                                      <span>Country</span>
+                                                      <%}%>
+                              </p>
+                             
+                                  <div class="d-flex justify-content-end">
+                                    <div class="p-2">
+                                      <!-- update cv-->
+                                      <div class="div">
+                                        <a href="/citizen/myProfile/profileImage/<%=employmentData.userId%>" class="btn btn-secondary ">
+                                          <i class="bi bi-pencil-square" aria-hidden="true" style="color:#fff">
+                                          </i>
+                                        </a>
+                                      </div>
+                                  
+                                    </div>
+                                  
+                                    <div class="p-2">
+                                      <!-- remove cv -->
+                                      <form action="/citizen/myEmployement" method="DELETE" id="delete-my-employement-form">
+                                        <!-- action="/citizen/dashboard/myBio?_method=DELETE" -->
+                                  
+                                        <button type="submit" value="submit" class="btn btn-danger ">
+                                          <i class="bi bi-trash3" aria-hidden="true" style="color:#fff"></i>
+                                        </button>
+                                      </form>
+                                    </div>
+                                  
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                       
+
+
+
+
+                      </div>
+
+
+                  </div>
+
+              
+                </div>
+
+             
+
+                <% }%>
+              </div>
+            </div>
+            <!-- div post card -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- profile image -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+
+    <script src="/assets/js/citizen_myEmployement.js"></script>
+    <!-- <script src="/assets/js/citizen_myBioProfile_delete.js"></script> -->
+
+</body>
+
+</html>

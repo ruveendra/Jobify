@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Jobify || Home</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <!-- boostrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+  <!-- essentials for leaflet map -->
+  <!-- leafletjs css -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <!-- leafletjs js -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+</head>
+
+
+<body
+  style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');background-size: cover">
+
+  <!-- navbar -->
+  <%- include('citizen_nav')%>
+
+    <!-- navbar -->
+
+
+    <!-- update profile-->
+    <section class="vh-100 bg-image p-5">
+      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div class="card" style="border-radius: 15px;">
+
+                <!-- alert message :sucessfull-->
+                <div class=container" id="message-alert">
+
+                </div>
+                <!-- alert message -->
+               
+                    <div class="card-body p-5">
+                      <h2 class="text-uppercase text-center mb-5">Update account</h2>
+
+
+                      <% if(cvDetails || userDetails) {%>
+
+
+                        <form action="/citizen/updateProfile" method="PUT" id="citizen-profile-update-form">
+
+                          <div class="form-outline mb-4">
+                            <label class="form-label" for="nic">NIC</label>
+                            <%if(cvDetails.nic){%>
+                              <input type="text" id="nic" name="nic"
+                                class="form-control form-control-lg border border-secondary"
+                                value=" <%= cvDetails.nic %>" />
+                              <%}else{%>
+                                <input type="text" id="nic" name="nic"
+                                  class="form-control form-control-lg border border-secondary" />
+                                <%}%>
+                                  <div class="invalid-feedback"></div>
+                          </div>
+
+                          <!-- birthday -->
+                          <div class="form-outline mb-4">
+                            <label class="control-label" for="Date Of Birth">
+                              Date Of Birth
+                            </label>
+                            <%if(cvDetails.birthday){%>
+                              <%let convertedDateFormat=cvDetails.birthday.toISOString().substr(0, 10)%>
+
+                                <input id="uDOB" name="uDOB" type="date" placeholder="Date Of Birth"
+                                  class="form-control form-control-lg border border-secondary"
+                                  value="<%= convertedDateFormat.toString() %>">
+                                <!-- value="2014-12-29" shouldbe in this format -->
+                                <%}else{%>
+                                  <input id="uDOB" name="uDOB" type="date" placeholder="Date Of Birth"
+                                    class="form-control form-control-lg border border-secondary">
+                                  <%}%>
+                                    <div class="invalid-feedback"></div>
+                          </div>
+                          <!-- Name -->
+                          <div class="form-outline mb-4">
+                            <label class="form-label" for="userName"> Name with Initials</label>
+                            <% if(userDetails.userName){%>
+                              <input type="text" id="userName" name="userName"
+                                class="form-control form-control-lg border border-secondary"
+                                value="<%=userDetails.userName%>" />
+                              <div class="invalid-feedback"></div>
+                              <% }else{%>
+                                <input type="text" id="userName" name="userName"
+                                  class="form-control form-control-lg border border-secondary" />
+                                <div class="invalid-feedback"></div>
+                                <% }%>
+                          </div>
+                          <!-- email -->
+                          <div class="form-outline mb-4">
+                            <label class="form-label" for="email">Email Address</label>
+                            <% if(userDetails.email){%>
+                              <input type="text" class="form-control form-control-lg border border-secondary "
+                                name="email" id="email" value="<%=userDetails.email%>" disabled />
+                              <% }%>
+                                <!-- <div class="valid-feedback">
+                                              valid email address
+                                            </div> -->
+                                <div class="invalid-feedback"></div>
+                          </div>
+
+
+                          <!-- Skill input -->
+                          <div class="form-outline mb-4">
+                            <label class="form-label" for="affiliation">Affiliations</label>
+
+
+                            <%if(cvDetails.affiliations){%>
+                              <% let affiliationsObj=cvDetails.affiliations %>
+                                <% for(const property in affiliationsObj){%>
+                                  <div id="inputFormRow">
+                                    <div class="input-group  mb-3">
+                                      <input type="text" name="affiliation-input"
+                                        class="form-control form-control-lg border border-secondary affiliation-input"
+                                        placeholder="Enter Affiliation" autocomplete="off"
+                                        value="<%= affiliationsObj[property] %>">
+                                      <div class="input-group-append">
+                                        <button id="removeRow" type="button" class="btn btn-danger">X</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <% } %>
+                                    <% }else{ %>
+                                      <div id="inputFormRow">
+                                        <div class="input-group  mb-3">
+                                          <input type="text" name="affiliation-input"
+                                            class="form-control form-control-lg border border-secondary affiliation-input"
+                                            placeholder="Enter Affiliation" autocomplete="off">
+                                          <div class="input-group-append">
+                                            <button id="removeRow" type="button" class="btn btn-danger">X</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <% } %>
+                                        <div id="newRow"></div>
+                                        <button id="addRow" type="button" class="btn btn-info">Add Affiliation</button>
+                          </div>
+
+
+
+                          <!-- password -->
+                          <!-- <div class="form-outline mb-4">
+                      <label class="form-label" for="password">Enter your password</label>
+                      <input type="password" class="form-control form-control-lg border border-secondary"
+                        name="password" id="password" /> -->
+                          <!-- <div class="valid-feedback">
+                                              Looks good!
+                                            </div> -->
+                          <!-- <div class="invalid-feedback"></div> -->
+
+                          <!-- </div>
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="repeat-password">Repeat your password</label>
+                      <input type="password" class="form-control form-control-lg border border-secondary"
+                        name="cPassword" id="cPassword" /> -->
+                          <!-- <div class="valid-feedback">
+                                              Looks good!
+                                            </div> -->
+                          <!-- <div class="invalid-feedback"></div> -->
+
+                          <!-- </div> -->
+                          <!-- town -->
+
+                          <%if(cvDetails.location.region){ %>
+                            <%let region=cvDetails.location.region %>
+                              <!-- location -->
+                              <div class="form-outline mb-4">
+                                <label class="form-label" for="region">Region</label>
+                                <select name="region" id="region" placeholder="All Regions"
+                                  class="form-control form-control-lg border border-secondary" autocomplete="off">
+                                  <option value="" selected disabled> Select Region </option>
+                                  <option value="Abilipitiya" <%=region=='Abilipitiya' ? 'selected' : '' %> >Abilipitiya
+                                  </option>
+                                  <option value="Agunukolapelessa" <%=region=='Agunukolapelessa' ? 'selected' : '' %>
+                                    >Agunukolapelessa</option>
+                                  <option value="Ahangama" <%=region=='Ahangama' ? 'selected' : '' %> >Ahangama</option>
+                                  <option value="Ahungalla" <%=region=='Ahungalla' ? 'selected' : '' %> >Ahungalla
+                                  </option>
+                                  <option value="Akkaraipattu" <%=region=='Akkaraipattu' ? 'selected' : '' %>
+                                    >Akkaraipattu
+                                  </option>
+                                  <option value="Akurana">Akurana</option>
+                                  <option value="Akuressa" <%=region=='Akuressa' ?'selected':''%>>Akuressa</option>
+                                  <option value="Alawwa" <%=region=='Alawwa' ?'selected':''%>>Alawwa</option>
+                                  <option value="Aluthgama" <%=region=='Aluthgama' ?'selected':''%>>Aluthgama</option>
+                                  <option value="Ambalangoda" <%=region=='Ambalangoda' ?'selected':''%>>Ambalangoda
+                                  </option>
+                                  <option value="Ambalantota" <%=region=='Ambalantota' ?'selected':''%>>Ambalantota
+                                  </option>
+                                  <option value="Ambuldeniya" <%=region=='Ambuldeniya' ?'selected':''%>>Ambuldeniya
+                                  </option>
+                                  <option value="Ampara" <%=region=='Ampara' ?'selected':''%>>Ampara</option>
+                                  <option value="Angoda" <%=region=='Angoda' ?'selected':''%>>Angoda</option>
+                                  <option value="Anuradhapura" <%=region=='Anuradhapura' ?'selected':''%>>Anuradhapura
+                                  </option>
+                                  <option value="Aralaganwila" <%=region=='Aralaganwila' ?'selected':''%>>Aralaganwila
+                                  </option>
+                                  <option value="Arangala" <%=region=='Arangala' ?'selected':''%>>Arangala</option>
+                                  <option value="Athurugiriya" <%=region=='Athurugiriya' ?'selected':''%>>Athurugiriya
+                                  </option>
+                                  <option value="Attidiya" <%=region=='Attidiya' ?'selected':''%>>Attidiya</option>
+                                  <option value="Avissawella" <%=region=='Avissawella' ?'selected':''%>>Avissawella
+                                  </option>
+                                  <option value="Baddegama" <%=region=='Baddegama' ?'selected':''%>>Baddegama</option>
+                                  <option value="Badulla" <%=region=='Badulla' ?'selected':''%>>Badulla</option>
+                                  <option value="Balagolla" <%=region=='Balagolla' ?'selected':''%>>Balagolla</option>
+                                  <option value="Balangoda" <%=region=='Balangoda' ?'selected':''%>>Balangoda</option>
+                                  <option value="Balapitiya" <%=region=='Balapitiya' ?'selected':''%>>Balapitiya
+                                  </option>
+                                  <option value="Balummahara" <%=region=='Balummahara' ?'selected':''%>>Balummahara
+                                  </option>
+                                  <option value="Bambalapitiya" <%=region=='Bambalapitiya' ?'selected':''%>
+                                    >Bambalapitiya
+                                  </option>
+                                  <option value="Bandaragama" <%=region=='Bandaragama' ?'selected':''%>>Bandaragama
+                                  </option>
+                                  <option value="Bandarawela" <%=region=='Bandarawela' ?'selected':''%>>Bandarawela
+                                  </option>
+                                  <option value="Batapola" <%=region=='Batapola' ?'selected':''%>>Batapola</option>
+                                  <option value="Battaramulla" <%=region=='Battaramulla' ?'selected':''%>>Battaramulla
+                                  </option>
+                                  <option value="Batticaloa" <%=region=='Batticaloa' ?'selected':''%>>Batticaloa
+                                  </option>
+                                  <option value="Beliatta" <%=region=='Beliatta' ?'selected':''%>>Beliatta</option>
+                                  <option value="Belihuloya" <%=region=='Belihuloya' ?'selected':''%>>Belihuloya
+                                  </option>
+                                  <option value="Belummahara" <%=region=='Belummahara' ?'selected':''%>>Belummahara
+                                  </option>
+                                  <option value="Bemmulla" <%=region=='Bemmulla' ?'selected':''%>>Bemmulla</option>
+                                  <option value="Bentota" <%=region=='Bentota' ?'selected':''%>>Bentota</option>
+                                  <option value="Beruwala" <%=region=='Beruwala' ?'selected':''%>>Beruwala</option>
+                                  <option value="Bibile" <%=region=='Bibile' ?'selected':''%>>Bibile</option>
+                                  <option value="Bingiriya" <%=region=='Bingiriya' ?'selected':''%>>Bingiriya</option>
+                                  <option value="Biyagama" <%=region=='Biyagama' ?'selected':''%>>Biyagama</option>
+                                  <option value="Boralesgamuwa" <%=region=='Boralesgamuwa' ?'selected':''%>
+                                    >Boralesgamuwa
+                                  </option>
+                                  <option value="Borella" <%=region=='Borella' ?'selected':''%>>Borella</option>
+                                  <option value="4879" <%=region=='Ihalagamae Ihalagama' ?'selected':''%>>Ihalagamae
+                                    Ihalagama</option>
+                                  <option value="Bulathkohupitiya" <%=region=='Bulathkohupitiya' ?'selected':''%>
+                                    >Bulathkohupitiya</option>
+                                  <option value="Buthgamuwa" <%=region=='Buthgamuwa' ?'selected':''%>>Buthgamuwa
+                                  </option>
+                                  <option value="Buttala" <%=region=='Buttala' ?'selected':''%>>Buttala</option>
+                                  <option value="Chavakacheri" <%=region=='Chavakacheri' ?'selected':''%>>Chavakacheri
+                                  </option>
+                                  <option value="Chilaw" <%=region=='Chilaw' ?'selected':''%>>Chilaw</option>
+                                  <option value="Chunnakam" <%=region=='Chunnakam' ?'selected':''%>>Chunnakam</option>
+                                  <option value="Coimbatore" <%=region=='Coimbatore' ?'selected':''%>>Coimbatore
+                                  </option>
+                                  <option value="Colombo 01" <%=region=='Colombo 01' ?'selected':''%>>Colombo 01
+                                  </option>
+                                  <option value="Colombo 02" <%=region=='Colombo 02' ? 'selected' : '' %>>Colombo 02
+                                  </option>
+                                  <option value="Colombo 03" <%=region=='Colombo 03' ? 'selected' : '' %>>Colombo 03
+                                  </option>
+                                  <option value="Colombo 04" <%=region=='Colombo 04' ? 'selected' : '' %>>Colombo 04
+                                  </option>
+                                  <option value="Colombo 05" <%=region=='Colombo 05' ? 'selected' : '' %>>Colombo 05
+                                  </option>
+                                  <option value="Colombo 06" <%=region=='Colombo 06' ? 'selected' : '' %>>Colombo 06
+                                  </option>
+                                  <option value="Colombo 07" <%=region=='Colombo 07' ? 'selected' : '' %>>Colombo 07
+                                  </option>
+                                  <option value="Colombo 08" <%=region=='Colombo 08' ? 'selected' : '' %>>Colombo 08
+                                  </option>
+                                  <option value="Colombo 09" <%=region=='Colombo 09' ? 'selected' : '' %>>Colombo 09
+                                  </option>
+                                  <option value="Colombo 10" <%=region=='Colombo 10' ? 'selected' : '' %>>Colombo 10
+                                  </option>
+                                  <option value="Colombo 11" <%=region=='Colombo 11' ? 'selected' : '' %>>Colombo 11
+                                  </option>
+                                  <option value="Colombo 12" <%=region=='Colombo 12' ? 'selected' : '' %>>Colombo 12
+                                  </option>
+                                  <option value="Colombo 13" <%=region=='Colombo 13' ? 'selected' : '' %>>Colombo 13
+                                  </option>
+                                  <option value="Colombo 14" <%=region=='Colombo 14' ? 'selected' : '' %>>Colombo 14
+                                  </option>
+                                  <option value="Colombo 15" <%=region=='Colombo 15' ? 'selected' : '' %>>Colombo 15
+                                  </option>
+                                  <option value="Dalugama" <%=region=='Dalugama' ? 'selected' : '' %> >Dalugama</option>
+                                  <option value="Dambulla" <%=region=='Dambulla' ? 'selected' : '' %>>Dambulla</option>
+                                  <option value="Dankotuwa" <%=region=='Dankotuwa' ? 'selected' : '' %>>Dankotuwa
+                                  </option>
+                                  <option value="Dehiattakandiya" <%=region=='Dehiattakandiya' ? 'selected' : '' %>
+                                    >Dehiattakandiya</option>
+                                  <option value="Dehiowita" <%=region=='Dehiowita' ? 'selected' : '' %>>Dehiowita
+                                  </option>
+                                  <option value="Dehiwala" <%=region=='Dehiwala' ? 'selected' : '' %>>Dehiwala</option>
+                                  <option value="Delgoda" <%=region=='Delgoda' ? 'selected' : '' %>>Delgoda</option>
+                                  <option value="Delkanda" <%=region=='Delkanda' ? 'selected' : '' %>>Delkanda</option>
+                                  <option value="Deniyaya" <%=region=='Deniyaya' ? 'selected' : '' %>>Deniyaya</option>
+                                  <option value="Depanama" <%=region=='Depanama' ? 'selected' : '' %>>Depanama</option>
+                                  <option value="Deraniyagala" <%=region=='Deraniyagala' ? 'selected' : '' %>
+                                    >Deraniyagala
+                                  </option>
+                                  <option value="Digana" <%=region=='Digana' ? 'selected' : '' %>>Digana</option>
+                                  <option value="Dikwella" <%=region=='Dikwella' ? 'selected' : '' %>>Dikwella</option>
+                                  <option value="Divulapitiya" <%=region=='Divulapitiya' ? 'selected' : '' %>
+                                    >Divulapitiya
+                                  </option>
+                                  <option value="Diyathalawa" <%=region=='Diyathalawa' ? 'selected' : '' %>>Diyathalawa
+                                  </option>
+                                  <option value="Dompe" <%=region=='Dompe' ? 'selected' : '' %>>Dompe</option>
+                                  <option value="Eheliyagoda" <%=region=='Eheliyagoda' ? 'selected' : '' %>>Eheliyagoda
+                                  </option>
+                                  <option value="Ekala" <%=region=='Ekala' ? 'selected' : '' %>>Ekala</option>
+                                  <option value="Elakanda" <%=region=='Elakanda' ? 'selected' : '' %>>Elakanda</option>
+                                  <option value="Ella" <%=region=='Ella' ? 'selected' : '' %>>Ella</option>
+                                  <option value="Elpitiya" <%=region=='Elpitiya' ? 'selected' : '' %>>Elpitiya</option>
+                                  <option value="Embilipitiya" <%=region=='Embilipitiya' ? 'selected' : '' %>
+                                    >Embilipitiya
+                                  </option>
+                                  <option value="Eppawala" <%=region=='Eppawala' ? 'selected' : '' %>>Eppawala</option>
+                                  <option value="Eravur" <%=region=='Eravur' ? 'selected' : '' %>>Eravur</option>
+                                  <option value="1442" <%=region=='1442' ? 'selected' : '' %>>Kottel Kotte</option>
+                                  <option value="Ettampitiya" <%=region=='Ettampitiya' ? 'selected' : '' %>>Ettampitiya
+                                  </option>
+                                  <option value="Galagedara" <%=region=='Galagedara' ? 'selected' : '' %>>Galagedara
+                                  </option>
+                                  <option value="Galawewa" <%=region=='Galawewa' ? 'selected' : '' %>>Galawewa</option>
+                                  <option value="Galawilawatta" <%=region=='Galawilawatta' ? 'selected' : '' %>
+                                    >Galawilawatta</option>
+                                  <option value="Galenbindunuwewa" <%=region=='Galenbindunuwewa' ? 'selected' : '' %>
+                                    >Galenbindunuwewa</option>
+                                  <option value="Galewela" <%=region=='Galewela' ? 'selected' : '' %>>Galewela</option>
+                                  <option value="Galgamuwa" <%=region=='Galgamuwa' ? 'selected' : '' %>>Galgamuwa
+                                  </option>
+                                  <option value="Galigamuwa" <%=region=='Galigamuwa' ? 'selected' : '' %>>Galigamuwa
+                                  </option>
+                                  <option value="Galle" <%=region=='Galle' ? 'selected' : '' %>>Galle</option>
+                                  <option value="Galnewa" <%=region=='Galnewa' ? 'selected' : '' %>>Galnewa</option>
+                                  <option value="Gampaha" <%=region=='Gampaha' ? 'selected' : '' %>>Gampaha</option>
+                                  <option value="Gampola" <%=region=='Gampola' ? 'selected' : '' %>>Gampola</option>
+                                  <option value="Ganemulla" <%=region=='Ganemulla' ? 'selected' : '' %>>Ganemulla
+                                  </option>
+                                  <option value="Gangodawila" <%=region=='Gangodawila' ? 'selected' : '' %>>Gangodawila
+                                  </option>
+                                  <option value="Gelioya" <%=region=='Gelioya' ? 'selected' : '' %>>Gelioya</option>
+                                  <option value="Ginigathhena" <%=region=='Ginigathhena' ? 'selected' : '' %>
+                                    >Ginigathhena
+                                  </option>
+                                  <option value="Giriulla" <%=region=='Giriulla' ? 'selected' : '' %>>Giriulla</option>
+                                  <option value="Godagama" <%=region=='Godagama' ? 'selected' : '' %>>Godagama</option>
+                                  <option value="Gothatuwa" <%=region=='Gothatuwa' ? 'selected' : '' %>>Gothatuwa
+                                  </option>
+                                  <option value="Habarana" <%=region=='Habarana' ? 'selected' : '' %>>Habarana</option>
+                                  <option value="Hakmana" <%=region=='Hakmana' ? 'selected' : '' %>>Hakmana</option>
+                                  <option value="4906" <%=region=='4906' ? 'selected' : '' %>>elai-ela</option>
+                                  <option value="Hambantota" <%=region=='Hambantota' ? 'selected' : '' %>>Hambantota
+                                  </option>
+                                  <option value="Hanwella" <%=region=='Hanwella' ? 'selected' : '' %>>Hanwella</option>
+                                  <option value="Haputale" <%=region=='Haputale' ? 'selected' : '' %>>Haputale</option>
+                                  <option value="Harispattuwa" <%=region=='Harispattuwa' ? 'selected' : '' %>
+                                    >Harispattuwa
+                                  </option>
+                                  <option value="Hatton" <%=region=='Hatton' ? 'selected' : '' %>>Hatton</option>
+                                  <option value="Hettipola" <%=region=='Hettipola' ? 'selected' : '' %>>Hettipola
+                                  </option>
+                                  <option value="Hikkaduwa" <%=region=='Hikkaduwa' ? 'selected' : '' %>>Hikkaduwa
+                                  </option>
+                                  <option value="Hingurakgoda" <%=region=='Hingurakgoda' ? 'selected' : '' %>
+                                    >Hingurakgoda
+                                  </option>
+                                  <option value="Hingurana" <%=region=='Hingurana' ? 'selected' : '' %>>Hingurana
+                                  </option>
+                                  <option value="Hingurangala" <%=region=='Hingurangala' ? 'selected' : '' %>
+                                    >Hingurangala
+                                  </option>
+                                  <option value="Hokandara" <%=region=='Hokandara' ? 'selected' : '' %>>Hokandara
+                                  </option>
+                                  <option value="Homagama" <%=region=='Homagama' ? 'selected' : '' %>>Homagama</option>
+                                  <option value="Horana" <%=region=='Horana' ? 'selected' : '' %>>Horana</option>
+                                  <option value="Hungama" <%=region=='Hungama' ? 'selected' : '' %>>Hungama</option>
+                                  <option value="Ibbagamuwa" <%=region=='Ibbagamuwa' ? 'selected' : '' %>>Ibbagamuwa
+                                  </option>
+                                  <option value="Imaduwa" <%=region=='Imaduwa' ? 'selected' : '' %>>Imaduwa</option>
+                                  <option value="Ingiriya" <%=region=='Ingiriya' ? 'selected' : '' %>>Ingiriya</option>
+                                  <option value="80" <%=region=='80' ? 'selected' : '' %>>Elaa-Ela</option>
+                                  <option value="Jaffna" <%=region=='Jaffna' ? 'selected' : '' %>>Jaffna</option>
+                                  <option value="Kadana" <%=region=='Kadana' ? 'selected' : '' %>>Kadana</option>
+                                  <option value="Kadawatha" <%=region=='Kadawatha' ? 'selected' : '' %>>Kadawatha
+                                  </option>
+                                  <option value="Kadugannawa" <%=region=='Kadugannawa' ? 'selected' : '' %>>Kadugannawa
+                                  </option>
+                                  <option value="Kaduruwela" <%=region=='Kaduruwela' ? 'selected' : '' %>>Kaduruwela
+                                  </option>
+                                  <option value="Kaduwela" <%=region=='Kaduwela' ? 'selected' : '' %>>Kaduwela</option>
+                                  <option value="Kahatuduwa" <%=region=='Kahatuduwa' ? 'selected' : '' %>>Kahatuduwa
+                                  </option>
+                                  <option value="Kahawatta" <%=region=='Kahawatta' ? 'selected' : '' %>>Kahawatta
+                                  </option>
+                                  <option value="Kalagedihena" <%=region=='Kalagedihena' ? 'selected' : '' %>
+                                    >Kalagedihena
+                                  </option>
+                                  <option value="Kalapaluwawa" <%=region=='Kalapaluwawa' ? 'selected' : '' %>
+                                    >Kalapaluwawa
+                                  </option>
+                                  <option value="Kalawana" <%=region=='Kalawana' ? 'selected' : '' %>>Kalawana</option>
+                                  <option value="Kaleliya" <%=region=='Kaleliya' ? 'selected' : '' %>>Kaleliya</option>
+                                  <option value="Kalmunai" <%=region=='Kalmunai' ? 'selected' : '' %>>Kalmunai</option>
+                                  <option value="Kalmunai" <%=region=='Kalmunai' ? 'selected' : '' %>>Kalmunai</option>
+                                  <option value="Kalpitiya" <%=region=='Kalpitiya' ? 'selected' : '' %>>Kalpitiya
+                                  </option>
+                                  <option value="Kaluaggala" <%=region=='Kaluaggala' ? 'selected' : '' %>>Kaluaggala
+                                  </option>
+                                  <option value="Kalubowila" <%=region=='Kalubowila' ? 'selected' : '' %>>Kalubowila
+                                  </option>
+                                  <option value="Kaluthara" <%=region=='Kaluthara' ? 'selected' : '' %>>Kaluthara
+                                  </option>
+                                  <option value="Kamburugamuwa" <%=region=='Kamburugamuwa' ? 'selected' : '' %>
+                                    >Kamburugamuwa</option>
+                                  <option value="Kamburupitiya" <%=region=='Kamburupitiya' ? 'selected' : '' %>
+                                    >Kamburupitiya</option>
+                                  <option value="Kandana" <%=region=='Kandana' ? 'selected' : '' %>>Kandana</option>
+                                  <option value="Kandy" <%=region=='Kandy' ? 'selected' : '' %>>Kandy</option>
+                                  <option value="Karapitiya" <%=region=='Karapitiya' ? 'selected' : '' %>>Karapitiya
+                                  </option>
+                                  <option value="Katana" <%=region=='Katana' ? 'selected' : '' %>>Katana</option>
+                                  <option value="Kataragama" <%=region=='Kataragama' ? 'selected' : '' %>>Kataragama
+                                  </option>
+                                  <option value="Kattankudy" <%=region=='Kattankudy' ? 'selected' : '' %>>Kattankudy
+                                  </option>
+                                  <option value="Katubedda" <%=region=='Katubedda' ? 'selected' : '' %>>Katubedda
+                                  </option>
+                                  <option value="Katugastota" <%=region=='Katugastota' ? 'selected' : '' %>>Katugastota
+                                  </option>
+                                  <option value="Katunayake" <%=region=='Katunayake' ? 'selected' : '' %>>Katunayake
+                                  </option>
+                                  <option value="Katuneriya" <%=region=='Katuneriya' ? 'selected' : '' %>>Katuneriya
+                                  </option>
+                                  <option value="Katuwana" <%=region=='Katuwana' ? 'selected' : '' %>>Katuwana</option>
+                                  <option value="Kebithigollewa" <%=region=='Kebithigollewa' ? 'selected' : '' %>
+                                    >Kebithigollewa</option>
+                                  <option value="Kegalle" <%=region=='Kegalle' ? 'selected' : '' %>>Kegalle</option>
+                                  <option value="Kekanadura" <%=region=='Kekanadura' ? 'selected' : '' %>>Kekanadura
+                                  </option>
+                                  <option value="Kekirawa" <%=region=='Kekirawa' ? 'selected' : '' %>>Kekirawa</option>
+                                  <option value="Kelaniya" <%=region=='Kelaniya' ? 'selected' : '' %>>Kelaniya</option>
+                                  <option value="Kerawalapitiya" <%=region=='Kerawalapitiya' ? 'selected' : '' %>
+                                    >Kerawalapitiya</option>
+                                  <option value="Kesbewa" <%=region=='Kesbewa' ? 'selected' : '' %>>Kesbewa</option>
+                                  <option value="Kilinochchi" <%=region=='Kilinochchi' ? 'selected' : '' %>>Kilinochchi
+                                  </option>
+                                  <option value="Kimbulapitiya" <%=region=='Kimbulapitiya' ? 'selected' : '' %>
+                                    >Kimbulapitiya</option>
+                                  <option value="Kiribathgoda" <%=region=='Kiribathgoda' ? 'selected' : '' %>
+                                    >Kiribathgoda
+                                  </option>
+                                  <option value="Kirinda" <%=region=='Kirinda' ? 'selected' : '' %>>Kirinda</option>
+                                  <option value="Kirulapone" <%=region=='Kirulapone' ? 'selected' : '' %>>Kirulapone
+                                  </option>
+                                  <option value="Kitulgala" <%=region=='Kitulgala' ? 'selected' : '' %>>Kitulgala
+                                  </option>
+                                  <option value="Kochchikade" <%=region=='Kochchikade' ? 'selected' : '' %>>Kochchikade
+                                  </option>
+                                  <option value="Koggala" <%=region=='Koggala' ? 'selected' : '' %>>Koggala</option>
+                                  <option value="Kohuwala" <%=region=='Kohuwala' ? 'selected' : '' %>>Kohuwala</option>
+                                  <option value="Kollupitiya" <%=region=='Kollupitiya' ? 'selected' : '' %>>Kollupitiya
+                                  </option>
+                                  <option value="Kolonnawa" <%=region=='Kolonnawa' ? 'selected' : '' %>>Kolonnawa
+                                  </option>
+                                  <option value="Koralawella" <%=region=='Koralawella' ? 'selected' : '' %>>Koralawella
+                                  </option>
+                                  <option value="Korathota" <%=region=='Korathota' ? 'selected' : '' %>>Korathota
+                                  </option>
+                                  <option value="Kosgama" <%=region=='Kosgama' ? 'selected' : '' %>>Kosgama</option>
+                                  <option value="Kosgoda" <%=region=='Kosgoda' ? 'selected' : '' %>>Kosgoda</option>
+                                  <option value="Koswatta" <%=region=='Koswatta' ? 'selected' : '' %>>Koswatta</option>
+                                  <option value="Kotadeniyawa" <%=region=='Kotadeniyawa' ? 'selected' : '' %>
+                                    >Kotadeniyawa
+                                  </option>
+                                  <option value="Kotahena" <%=region=='Kotahena' ? 'selected' : '' %>>Kotahena</option>
+                                  <option value="Kothalawala" <%=region=='Kothalawala' ? 'selected' : '' %>>Kothalawala
+                                  </option>
+                                  <option value="Kotikawatta" <%=region=='Kotikawatta' ? 'selected' : '' %>>Kotikawatta
+                                  </option>
+                                  <option value="Kottawa" <%=region=='Kottawa' ? 'selected' : '' %>>Kottawa</option>
+                                  <option value="Kotte" <%=region=='Kotte' ? 'selected' : '' %>>Kotte</option>
+                                  <option value="Kuliyapitiya" <%=region=='Kuliyapitiya' ? 'selected' : '' %>
+                                    >Kuliyapitiya
+                                  </option>
+                                  <option value="Kundasale" <%=region=='Kundasale' ? 'selected' : '' %>>Kundasale
+                                  </option>
+                                  <option value="Kuruna" <%=region=='Kuruna' ? 'selected' : '' %>>Kuruna</option>
+                                  <option value="Kurunegala" <%=region=='Kurunegala' ? 'selected' : '' %>>Kurunegala
+                                  </option>
+                                  <option value="Kuruwita" <%=region=='Kuruwita' ? 'selected' : '' %>>Kuruwita</option>
+
+                                  <option value="Mabima" <%=region=='Mabima' ? 'selected' :''%>>Mabima</option>
+                                  <option value="Mabola" <%=region=='Mabola' ? 'selected' :''%>>Mabola</option>
+                                  <option value="Madampitiya" <%=region=='Madampitiya' ? 'selected' :''%>>Madampitiya
+                                  </option>
+                                  <option value="Madiwela" <%=region=='Madiwela' ? 'selected' :''%>>Madiwela</option>
+                                  <option value="Madola" <%=region=='Madola' ? 'selected' :''%>>Madola</option>
+                                  <option value="Magammana" <%=region=='Magammana' ? 'selected' :''%>>Magammana</option>
+                                  <option value="Mahabage" <%=region=='Mahabage' ? 'selected' :''%>>Mahabage</option>
+                                  <option value="Mahara" <%=region=='Mahara' ? 'selected' :''%>>Mahara</option>
+                                  <option value="Maharagama" <%=region=='Maharagama' ? 'selected' :''%>>Maharagama
+                                  </option>
+                                  <option value="Mahiyanganaya" <%=region=='Mahiyanganaya' ? 'selected' :''%>
+                                    >Mahiyanganaya
+                                  </option>
+                                  <option value="Makola" <%=region=='Makola' ? 'selected' :''%>>Makola</option>
+                                  <option value="Makumbura" <%=region=='Makumbura' ? 'selected' :''%>>Makumbura</option>
+                                  <option value="Malabe" <%=region=='Malabe' ? 'selected' :''%>>Malabe</option>
+                                  <option value="Malkaduwawa" <%=region=='Malkaduwawa' ? 'selected' :''%>>Malkaduwawa
+                                  </option>
+                                  <option value="Malwana" <%=region=='Malwana' ? 'selected' :''%>>Malwana</option>
+                                  <option value="Mannar" <%=region=='Mannar' ? 'selected' :''%>>Mannar</option>
+                                  <option value="Maradana" <%=region=='Maradana' ? 'selected' :''%>>Maradana</option>
+                                  <option value="Marawila" <%=region=='Marawila' ? 'selected' :''%>>Marawila</option>
+                                  <option value="Matale" <%=region=='Matale' ? 'selected' :''%>>Matale</option>
+                                  <option value="Matara" <%=region=='Matara' ? 'selected' :''%>>Matara</option>
+                                  <option value="Mathugama" <%=region=='Mathugama' ? 'selected' :''%>>Mathugama</option>
+                                  <option value="Mattakkuliya" <%=region=='Mattakkuliya' ? 'selected' :''%>>Mattakkuliya
+                                  </option>
+                                  <option value="Mattala" <%=region=='Mattala' ? 'selected' :''%>>Mattala</option>
+                                  <option value="Matugama" <%=region=='Matugama' ? 'selected' :''%>>Matugama</option>
+                                  <option value="Mawanella" <%=region=='Mawanella' ? 'selected' :''%>>Mawanella</option>
+                                  <option value="Mawathagama" <%=region=='Mawathagama' ? 'selected' :''%>>Mawathagama
+                                  </option>
+                                  <option value="Medawachchiya" <%=region=='Medawachchiya' ? 'selected' :''%>
+                                    >Medawachchiya
+                                  </option>
+                                  <option value="Medirigiriya" <%=region=='Medirigiriya' ? 'selected' :''%>>Medirigiriya
+                                  </option>
+                                  <option value="Meegoda" <%=region=='Meegoda' ? 'selected' :''%>>Meegoda</option>
+                                  <option value="Meepe" <%=region=='Meepe' ? 'selected' :''%>>Meepe</option>
+                                  <option value="Meethotamulla" <%=region=='Meethotamulla' ? 'selected' :''%>
+                                    >Meethotamulla
+                                  </option>
+                                  <option value="Menikhinna" <%=region=='Menikhinna' ? 'selected' :''%>>Menikhinna
+                                  </option>
+                                  <option value="Mihintale" <%=region=='Mihintale' ? 'selected' :''%>>Mihintale</option>
+                                  <option value="Minuwangoda" <%=region=='Minuwangoda' ? 'selected' :''%>>Minuwangoda
+                                  </option>
+                                  <option value="Mirigama" <%=region=='Mirigama' ? 'selected' :''%>>Mirigama</option>
+                                  <option value="Mirissa" <%=region=='Mirissa' ? 'selected' :''%>>Mirissa</option>
+                                  <option value="Modara" <%=region=='Modara' ? 'selected' :''%>>Modara</option>
+                                  <option value="Monaragala" <%=region=='Monaragala' ? 'selected' :''%>>Monaragala
+                                  </option>
+                                  <option value="Moratuwa" <%=region=='Moratuwa' ? 'selected' :''%>>Moratuwa</option>
+                                  <option value="Morawaka" <%=region=='Morawaka' ? 'selected' :''%>>Morawaka</option>
+                                  <option value="4363" <%=region=='4363' ? 'selected' :''%>>Laviniat Lavinia</option>
+                                  <option value="Mullaitivu" <%=region=='Mullaitivu' ? 'selected' :''%>>Mullaitivu
+                                  </option>
+                                  <option value="4734" <%=region=='4734' ? 'selected' :''%>>Northa North</option>
+                                  <option value="4047" <%=region=='4047' ? 'selected' :''%>>Southa South</option>
+                                  <option value="Nainamadama" <%=region=='Nainamadama' ? 'selected' :''%>>Nainamadama
+                                  </option>
+                                  <option value="Narahenpita" <%=region=='Narahenpita' ? 'selected' :''%>>Narahenpita
+                                  </option>
+                                  <option value="Narammala" <%=region=='Narammala' ? 'selected' :''%>>Narammala</option>
+                                  <option value="Nattandiya" <%=region=='Nattandiya' ? 'selected' :''%>>Nattandiya
+                                  </option>
+                                  <option value="Naula" <%=region=='Naula' ? 'selected' :''%>>Naula</option>
+                                  <option value="Navinna" <%=region=='Navinna' ? 'selected' :''%>>Navinna</option>
+                                  <option value="Nawagamuwa" <%=region=='Nawagamuwa' ? 'selected' :''%>>Nawagamuwa
+                                  </option>
+                                  <option value="Nawala" <%=region=='Nawala' ? 'selected' :''%>>Nawala</option>
+                                  <option value="Nawalapitiya" <%=region=='Nawalapitiya' ? 'selected' :''%>>Nawalapitiya
+                                  </option>
+                                  <option value="Negombo" <%=region=='Negombo' ? 'selected' :''%>>Negombo</option>
+                                  <option value="Nelliady" <%=region=='Nelliady' ? 'selected' :''%>>Nelliady</option>
+                                  <option value="Nikaweratiya" <%=region=='Nikaweratiya' ? 'selected' :''%>>Nikaweratiya
+                                  </option>
+                                  <option value="Nilaveli" <%=region=='Nilaveli' ? 'selected' :''%>>Nilaveli</option>
+                                  <option value="Nittambuwa" <%=region=='Nittambuwa' ? 'selected' :''%>>Nittambuwa
+                                  </option>
+                                  <option value="Nivithigala" <%=region=='Nivithigala' ? 'selected' :''%>>Nivithigala
+                                  </option>
+                                  <option value="Nochchiyagama" <%=region=='Nochchiyagama' ? 'selected' :''%>
+                                    >Nochchiyagama
+                                  </option>
+                                  <option value="Nugegoda" <%=region=='Nugegoda' ? 'selected' :''%>>Nugegoda</option>
+                                  <option value="87" <%=region=='87' ? 'selected' :''%>>Eliyaa Eliya</option>
+                                  <option value="Oddamavadi" <%=region=='Oddamavadi' ? 'selected' :''%>>Oddamavadi
+                                  </option>
+                                  <option value="Okkampitiya" <%=region=='Okkampitiya' ? 'selected' :''%>>Okkampitiya
+                                  </option>
+                                  <option value="Orugodawatta" <%=region=='Orugodawatta' ? 'selected' :''%>>Orugodawatta
+                                  </option>
+                                  <option value="Oruwala" <%=region=='Oruwala' ? 'selected' :''%>>Oruwala</option>
+                                  <option value="Padiyatalawa" <%=region=='Padiyatalawa' ? 'selected' :''%>>Padiyatalawa
+                                  </option>
+                                  <option value="Padukka" <%=region=='Padukka' ? 'selected' :''%>>Padukka</option>
+                                  <option value="Pahalawela" <%=region=='Pahalawela' ? 'selected' :''%>>Pahalawela
+                                  </option>
+                                  <option value="Palapathwela" <%=region=='Palapathwela' ? 'selected' :''%>>Palapathwela
+                                  </option>
+                                  <option value="Palau" <%=region=='Palau' ? 'selected' :''%>>Palau</option>
+                                  <option value="Palaviya" <%=region=='Palaviya' ? 'selected' :''%>>Palaviya</option>
+                                  <option value="Pallekele" <%=region=='Pallekele' ? 'selected' :''%>>Pallekele</option>
+                                  <option value="Pamankada" <%=region=='Pamankada' ? 'selected' :''%>>Pamankada</option>
+                                  <option value="Pamunuwa" <%=region=='Pamunuwa' ? 'selected' :''%>>Pamunuwa</option>
+                                  <option value="Panadura" <%=region=='Panadura' ? 'selected' :''%>>Panadura</option>
+                                  <option value="Panchikawatta" <%=region=='Panchikawatta' ? 'selected' :''%>
+                                    >Panchikawatta
+                                  </option>
+                                  <option value="Pannala" <%=region=='Pannala' ? 'selected' :''%>>Pannala</option>
+                                  <option value="Pannipitiya" <%=region=='Pannipitiya' ? 'selected' :''%>>Pannipitiya
+                                  </option>
+                                  <option value="Pasikuda" <%=region=='Pasikuda' ? 'selected' :''%>>Pasikuda</option>
+                                  <option value="Passara" <%=region=='Passara' ? 'selected' :''%>>Passara</option>
+                                  <option value="Pasyala" <%=region=='Pasyala' ? 'selected' :''%>>Pasyala</option>
+                                  <option value="Pelawatta" <%=region=='Pelawatta' ? 'selected' :''%>>Pelawatta</option>
+                                  <option value="Peliyagoda" <%=region=='Peliyagoda' ? 'selected' :''%>>Peliyagoda
+                                  </option>
+                                  <option value="Pelmadulla" <%=region=='Pelmadulla' ? 'selected' :''%>>Pelmadulla
+                                  </option>
+                                  <option value="Pepiliyana" <%=region=='Pepiliyana' ? 'selected' :''%>>Pepiliyana
+                                  </option>
+                                  <option value="Peradeniya" <%=region=='Peradeniya' ? 'selected' :''%>>Peradeniya
+                                  </option>
+                                  <option value="Pettah" <%=region=='Pettah' ? 'selected' :''%>>Pettah</option>
+                                  <option value="Pilimathalawa" <%=region=='Pilimathalawa' ? 'selected' :''%>
+                                    >Pilimathalawa
+                                  </option>
+                                  <option value="Piliyandala" <%=region=='Piliyandala' ? 'selected' :''%>>Piliyandala
+                                  </option>
+                                  <option value="389" <%=region=='389' ? 'selected' :''%>>Kottea Kotte</option>
+                                  <option value="Pittugala" <%=region=='Pittugala' ? 'selected' :''%>>Pittugala</option>
+                                  <option value="81" <%=region=='81' ? 'selected' :''%>>Pedrot Pedro</option>
+                                  <option value="Polgahawela" <%=region=='Polgahawela' ? 'selected' :''%>>Polgahawela
+                                  </option>
+                                  <option value="Polgasowita" <%=region=='Polgasowita' ? 'selected' :''%>>Polgasowita
+                                  </option>
+                                  <option value="Polonnaruwa" <%=region=='Polonnaruwa' ? 'selected' :''%>>Polonnaruwa
+                                  </option>
+                                  <option value="Poojapitiya" <%=region=='Poojapitiya' ? 'selected' :''%>>Poojapitiya
+                                  </option>
+                                  <option value="Pugoda" <%=region=='Pugoda' ? 'selected' :''%>>Pugoda</option>
+                                  <option value="Puttalam" <%=region=='Puttalam' ? 'selected' :''%>>Puttalam</option>
+                                  <option value="Radawana" <%=region=='Radawana' ? 'selected' :''%>>Radawana</option>
+                                  <option value="Ragama" <%=region=='Ragama' ? 'selected' :''%>>Ragama</option>
+                                  <option value="Rajagiriya" <%=region=='Rajagiriya' ? 'selected' :''%>>Rajagiriya
+                                  </option>
+                                  <option value="Rambukkana" <%=region=='Rambukkana' ? 'selected' :''%>>Rambukkana
+                                  </option>
+                                  <option value="Ranala" <%=region=='Ranala' ? 'selected' :''%>>Ranala</option>
+                                  <option value="Ranna" <%=region=='Ranna' ? 'selected' :''%>>Ranna</option>
+                                  <option value="Rathmalana" <%=region=='Rathmalana' ? 'selected' :''%>>Rathmalana
+                                  </option>
+                                  <option value="Rathmale" <%=region=='Rathmale' ? 'selected' :''%>>Rathmale</option>
+                                  <option value="Ratnapura" <%=region=='Ratnapura' ? 'selected' :''%>>Ratnapura</option>
+                                  <option value="Rattanapitiya" <%=region=='Rattanapitiya' ? 'selected' :''%>
+                                    >Rattanapitiya
+                                  </option>
+                                  <option value="Ruhunupura" <%=region=='Ruhunupura' ? 'selected' :''%>>Ruhunupura
+                                  </option>
+                                  <option value="Rukmalgama" <%=region=='Rukmalgama' ? 'selected' :''%>>Rukmalgama
+                                  </option>
+                                  <option value="Ruwanwella" <%=region=='Ruwanwella' ? 'selected' :''%>>Ruwanwella
+                                  </option>
+                                  <option value="Sampur" <%=region=='Sampur' ? 'selected' :''%>>Sampur</option>
+                                  <option value="Sapugaskanda" <%=region=='Sapugaskanda' ? 'selected' :''%>>Sapugaskanda
+                                  </option>
+                                  <option value="Sedawatta" <%=region=='Sedawatta' ? 'selected' :''%>>Sedawatta</option>
+                                  <option value="Seeduwa" <%=region=='Seeduwa' ? 'selected' :''%>>Seeduwa</option>
+                                  <option value="Siddamulla" <%=region=='Siddamulla' ? 'selected' :''%>>Siddamulla
+                                  </option>
+                                  <option value="Sigiriya" <%=region=='Sigiriya' ? 'selected' :''%>>Sigiriya</option>
+                                  <option value="Suriyakanda" <%=region=='Suriyakanda' ? 'selected' :''%>>Suriyakanda
+                                  </option>
+                                  <option value="Talawa" <%=region=='Talawa' ? 'selected' :''%>>Talawa</option>
+                                  <option value="Tangalle" <%=region=='Tangalle' ? 'selected' :''%>>Tangalle</option>
+                                  <option value="Thalahena" <%=region=='Thalahena' ? 'selected' :''%>>Thalahena</option>
+                                  <option value="Thalangama" <%=region=='Thalangama' ? 'selected' :''%>>Thalangama
+                                  </option>
+                                  <option value="Thalathuoya" <%=region=='Thalathuoya' ? 'selected' :''%>>Thalathuoya
+                                  </option>
+                                  <option value="Thalathuoya" <%=region=='Thalathuoya' ? 'selected' :''%>>Thalathuoya
+                                  </option>
+                                  <option value="Thalawathugoda" <%=region=='Thalawathugoda' ? 'selected' :''%>
+                                    >Thalawathugoda</option>
+                                  <option value="Thambuttegama" <%=region=='Thambuttegama' ? 'selected' :''%>
+                                    >Thambuttegama
+                                  </option>
+                                  <option value="Thangalla" <%=region=='Thangalla' ? 'selected' :''%>>Thangalla</option>
+                                  <option value="Thimbirigasyaya" <%=region=='Thimbirigasyaya' ? 'selected' :''%>
+                                    >Thimbirigasyaya</option>
+                                  <option value="Thirunelvely" <%=region=='Thirunelvely' ? 'selected' :''%>>Thirunelvely
+                                  </option>
+                                  <option value="Thotagoda" <%=region=='Thotagoda' ? 'selected' :''%>>Thotagoda</option>
+                                  <option value="Thummulla" <%=region=='Thummulla' ? 'selected' :''%>>Thummulla</option>
+                                  <option value="Tissamaharama" <%=region=='Tissamaharama' ? 'selected' :''%>
+                                    >Tissamaharama
+                                  </option>
+                                  <option value="4770" <%=region=='4770' ? 'selected' :''%>>Halln Hall</option>
+                                  <option value="Trincomalee" <%=region=='Trincomalee' ? 'selected' :''%>>Trincomalee
+                                  </option>
+                                  <option value="Udahamulla" <%=region=='Udahamulla' ? 'selected' :''%>>Udahamulla
+                                  </option>
+                                  <option value="Udappu" <%=region=='Udappu' ? 'selected' :''%>>Udappu</option>
+                                  <option value="Udawalawa" <%=region=='Udawalawa' ? 'selected' :''%>>Udawalawa</option>
+                                  <option value="Udugama" <%=region=='Udugama' ? 'selected' :''%>>Udugama</option>
+                                  <option value="Udugampola" <%=region=='Udugampola' ? 'selected' :''%>>Udugampola
+                                  </option>
+                                  <option value="Ukuwela" <%=region=='Ukuwela' ? 'selected' :''%>>Ukuwela</option>
+                                  <option value="Unawatuna" <%=region=='Unawatuna' ? 'selected' :''%>>Unawatuna</option>
+                                  <option value="5010" <%=region=='5010' ? 'selected' :''%>>Placen Place</option>
+                                  <option value="Valvettithurai" <%=region=='Valvettithurai' ? 'selected' :''%>
+                                    >Valvettithurai</option>
+                                  <option value="3639" <%=region=='3639' ? 'selected' :''%>>Streetl Street</option>
+                                  <option value="Vavuniya" <%=region=='Vavuniya' ? 'selected' :''%>>Vavuniya</option>
+                                  <option value="Veyangoda" <%=region=='Veyangoda' ? 'selected' :''%>>Veyangoda</option>
+                                  <option value="Wadduwa" <%=region=='Wadduwa' ? 'selected' :''%>>Wadduwa</option>
+                                  <option value="Waikkal" <%=region=='Waikkal' ? 'selected' :''%>>Waikkal</option>
+                                  <option value="Warakapola" <%=region=='Warakapola' ? 'selected' :''%>>Warakapola
+                                  </option>
+                                  <option value="Wariyapola" <%=region=='Wariyapola' ? 'selected' :''%>>Wariyapola
+                                  </option>
+                                  <option value="Waskaduwa" <%=region=='Waskaduwa' ? 'selected' :''%>>Waskaduwa</option>
+                                  <option value="Wathupitiwala" <%=region=='Wathupitiwala' ? 'selected' :''%>
+                                    >Wathupitiwala
+                                  </option>
+                                  <option value="Wattala" <%=region=='Wattala' ? 'selected' :''%>>Wattala</option>
+                                  <option value="Wattegama" <%=region=='Wattegama' ? 'selected' :''%>>Wattegama</option>
+                                  <option value="Welesara" <%=region=='Welesara' ? 'selected' :''%>>Welesara</option>
+                                  <option value="Weligama" <%=region=='Weligama' ? 'selected' :''%>>Weligama</option>
+                                  <option value="Welikanda" <%=region=='Welikanda' ? 'selected' :''%>>Welikanda</option>
+                                  <option value="Welimada" <%=region=='Welimada' ? 'selected' :''%>>Welimada</option>
+                                  <option value="Welipenna" <%=region=='Welipenna' ? 'selected' :''%>>Welipenna</option>
+                                  <option value="Welisara" <%=region=='Welisara' ? 'selected' :''%>>Welisara</option>
+                                  <option value="Welivita" <%=region=='Welivita' ? 'selected' :''%>>Welivita</option>
+                                  <option value="Wellampitiya" <%=region=='Wellampitiya' ? 'selected' :''%>>Wellampitiya
+                                  </option>
+                                  <option value="Wellawatte" <%=region=='Wellawatte' ? 'selected' :''%>>Wellawatte
+                                  </option>
+                                  <option value="Wellawaya" <%=region=='Wellawaya' ? 'selected' :''%>>Wellawaya</option>
+                                  <option value="Wennappuwa" <%=region=='Wennappuwa' ? 'selected' :''%>>Wennappuwa
+                                  </option>
+                                  <option value="Werahera" <%=region=='Werahera' ? 'selected' :''%>>Werahera</option>
+                                  <option value="Weralugama" <%=region=='Weralugama' ? 'selected' :''%>>Weralugama
+                                  </option>
+                                  <option value="Wijerama" <%=region=='Wijerama' ? 'selected' :''%>>Wijerama</option>
+                                  <option value="Yakkala" <%=region=='Yakkala' ? 'selected' :''%>>Yakkala</option>
+                                  <option value="Yala" <%=region=='Yala' ? 'selected' :''%>>Yala</option>
+                                  <option value="Yanthampalawa" <%=region=='Yanthampalawa' ? 'selected' :''%>
+                                    >Yanthampalawa
+                                  </option>
+                                  <option value="Yatawatta" <%=region=='Yatawatta' ? 'selected' :''%>>Yatawatta</option>
+                                  <option value="Yatiyanthota" <%=region=='Yatiyanthota' ? 'selected' :''%>>Yatiyanthota
+                                  </option>
+                                </select>
+                                <div class="invalid-feedback"></div>
+                              </div>
+                              <% } %>
+
+                                <% } %>
+                                  <!-- town -->
+                                  <script>
+                                    let LatLocationFromDb = '<%=cvDetails.location.lat %>'
+                                    let LongLocationFromDb = '<%=cvDetails.location.long %>'
+
+                                  </script>
+                                  <!-- map -->
+                                  <div class="container" id="map-region">
+                                    <p class="font-weight-bold">Please Click "Find My Location" to get your coordinates.
+                                      Please drag
+                                      the
+                                      marker
+                                      to pinpoint the exact location </p>
+                                    <div class="align-self-center mx-auto">
+
+                                      <!-- <button class="btn  btn-dark" type="button" onclick="getLocation()">Find My Location</button> -->
+                                    </div>
+                                    <p id="x"></p>
+                                    <div style="display:none">
+                                      lattitude-location<p id="lat"></p>
+                                      lattitude-location <p id="long"></p>
+                                    </div>
+                                    <div id="map" style="height:500px;" class="mb-3"></div>
+                                  </div>
+                                  <!-- map -->
+                                  <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                      class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Update</button>
+                                  </div>
+                        </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </section>
+
+
+
+    <!-- register -->
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+
+    <script src="/assets/js/profileUpdateMapJs.js"></script>
+    <script src="/assets/js/citizen_updateProfile.js"></script>
+
+</body>
+
+</html>

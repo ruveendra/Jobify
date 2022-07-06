@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Jobify || Home</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <!-- boostrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/assets/css/style.css">
+</head>
+
+<body>
+
+  <!-- navbar -->
+  <%- include('citizen_nav')%>
+    <!-- navbar -->
+
+
+    <!-- qualification -->
+    <section id="qualifications" class="qualifications section-bg">
+      <div class="container p-5">
+        <h1 class="p-2"> Update Qualifications</h1>
+
+        <div class="section-title ">
+          <% if(qualifications){%>
+
+
+            <div class="container px-3" id="update-qualifications-message-alert">
+
+            </div>
+
+
+            <form id="update-qualification-submit-form">
+              <div class="row">
+                <div class="col-sm ">
+                  <div class="icon-box">
+                    <div class="icon"><i class="bx bx-tachometer"></i></div>
+
+
+
+                    <fieldset>
+                      <label class="control-label" for="carreer ">Select highest level of
+                        qualification</label>
+                      <select
+                        class="form-select form-control form-control-lg form-select-lg mb-3 border border-secondary"
+                        id="highest-qualification-type" name="highest-qualification-type" required>
+                        <option value="" selected="selected" disabled="disabled">-- select one --</option>
+                        <option value="No_formal_education"
+                          <%=qualifications.highestQualificationType=='No_formal_education' ? 'selected' : '' %>>No
+                          formal education</option>
+                        <option value="Doctorate or higher"
+                          <%=qualifications.highestQualificationType=='Doctorate or higher' ? 'selected ' : '' %>
+                          >Doctorate or higher</option>
+                        <option value="Master_degree" <%=qualifications.highestQualificationType=='Master_degree'
+                          ? 'selected' : '' %>>Master's degree</option>
+                        <option value="Bachelor_degree" <%=qualifications.highestQualificationType=='Bachelor_degree'
+                          ? 'selected' : '' %>>Bachelor's degree</option>
+                        <option value="Vocational_qualification"
+                          <%=qualifications.highestQualificationType=='Vocational_qualification' ? 'selected' : '' %>
+                          >Vocational qualification</option>
+                        <option value="ol_education" <%=qualifications.highestQualificationType=='ol_education'
+                          ? 'selected' : '' %>>G.C.E Adavanced Level Certification</option>
+                        <option value="al_education" <%=qualifications.highestQualificationType=='al_education'
+                          ? 'selected' : '' %>>G.C.E Oridinary Level Certification</option>
+                        <option value="other" <%=qualifications.highestQualificationType=='other' ? 'selected' : '' %>
+                          >Other</option>
+                      </select>
+
+                    </fieldset>
+
+                    <div class="form-group">
+                      <label class="control-label" for="carreer ">Name of the awarded qualification</label>
+                      <div class="input-group">
+                        <% if(qualifications.highestQualificationName){%>
+                          <input id="highest-qualification-name" name="highest-qualification-name" type="text"
+                            placeholder=" eg- BSc Engineering Honours, ... " autocomplete="off"
+                            class=" form-control form-control-lg input border border-secondary"
+                            value="<%=qualifications.highestQualificationName%>">
+                          <% }else{%>
+                            <input id="highest-qualification-name" name="highest-qualification-name" type="text"
+                              placeholder=" eg- BSc Engineering Honours, ... " autocomplete="off"
+                              class=" form-control form-control-lg input border border-secondary">
+                            <% }%>
+
+                      </div>
+                    </div>
+                    <!-- Awarding body -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="awardingbody">Awarding body</label>
+                      <div class="input-group  mb-3">
+                        <% if( qualifications.awardingbodyInput){%>
+                          <input type="text" id="awardingbody-input" name="awardingbody-input"
+                            class="form-control form-control-lg border border-secondary affiliation-input"
+                            placeholder="eg- Plymouth Uk , ..." autocomplete="off"
+                            value="<%= qualifications.awardingbodyInput %>">
+                          <% }else{%>
+                            <input type="text" id="awardingbody-input" name="awardingbody-input"
+                              class="form-control form-control-lg border border-secondary affiliation-input"
+                              placeholder="eg- Plymouth Uk , ..." autocomplete="off">
+                            <% }%>
+                      </div>
+
+                    </div>
+
+
+                    <!-- industry -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="userType">I work in...</label>
+                      <select
+                        class="form-select form-control form-control-lg form-select-lg mb-3 border border-secondary"
+                        aria-label=".form-select-lg example" id="jobCategory" required>
+                        <option selected="selected" disabled="disabled" value=""> Please select Job Category
+                        </option>
+                        option value="Accounting">Accounting</option>
+                        <option value="Admin & Clerical" <%=qualifications.jobCategory=='Admin & Clerical' ? 'selected'
+                          : '' %>>Admin & Clerical</option>
+                        <option value="Automotive" <%=qualifications.jobCategory=='Automotive' ? 'selected' : '' %>
+                          >Automotive</option>
+                        <option value="Banking" <%=qualifications.jobCategory=='Banking' ? 'selected' : '' %>>Banking
+                        </option>
+                        <option value="Biotech" <%=qualifications.jobCategory=='Biotech' ? 'selected' : '' %>>Biotech
+                        </option>
+                        <option value="Broadcast" <%=qualifications.jobCategory=='Broadcast' ? 'selected' : '' %>
+                          >Broadcast</option>
+                        <option value="Business Development" <%=qualifications.jobCategory=='Business Development'
+                          ? 'selected' : '' %>>Business Development</option>
+                        <option value="Construction" <%=qualifications.jobCategory=='Construction' ? 'selected' : '' %>
+                          >Construction</option>
+                        <option value="Consultant" <%=qualifications.jobCategory=='Consultant' ? 'selected' : '' %>
+                          >Consultant</option>
+                        <option value="Customer Service" <%=qualifications.jobCategory=='Customer Service' ? 'selected'
+                          : '' %>>Customer Service</option>
+                        <option value="Design" <%=qualifications.jobCategory=='Design' ? 'selected' : '' %>>Design
+                        </option>
+                        <option value="Distribution" <%=qualifications.jobCategory=='Distribution' ? 'selected' : '' %>
+                          >Distribution</option>
+                        <option value="Education" <%=qualifications.jobCategory=='Education' ? 'selected' : '' %>
+                          >Education</option>
+                        <option value="Engineering" <%=qualifications.jobCategory=='Engineering' ? 'selected' : '' %>
+                          >Engineering</option>
+                        <option value="Entry Level" <%=qualifications.jobCategory=='Entry Level' ? 'selected' : '' %>
+                          >Entry Level</option>
+                        <option value="Executive" <%=qualifications.jobCategory=='Executive' ? 'selected' : '' %>
+                          >Executive</option>
+                        <option value="Facilities" <%=qualifications.jobCategory=='Facilities' ? 'selected' : '' %>
+                          >Facilities</option>
+                        <option value="Finance" <%=qualifications.jobCategory=='Finance' ? 'selected' : '' %>>Finance
+                        </option>
+                        <option value="Franchise" <%=qualifications.jobCategory=='Franchise' ? 'selected' : '' %>
+                          ">Franchise</option>
+                        <option value="General Business" <%=qualifications.jobCategory=='General Business' ? 'selected'
+                          : '' %>>General Business</option>
+                        <option value="General Labor" <%=qualifications.jobCategory=='General Labor' ? 'selected' : ''
+                          %>>General Labor</option>
+                        <option value="Government" <%=qualifications.jobCategory=='Government' ? 'selected' : '' %>
+                          >Government</option>
+                        <option value="Grocery" <%=qualifications.jobCategory=='Grocery' ? 'selected' : '' %>>Grocery
+                        </option>
+                        <option value="Health Care" <%=qualifications.jobCategory=='Health Care' ? 'selected' : '' %>
+                          >Health Care</option>
+                        <option value="Hotel - Hospitality" <%=qualifications.jobCategory=='Hotel - Hospitality'
+                          ? 'selected' : '' %>>Hotel - Hospitality</option>
+                        <option value="Human Resources" <%=qualifications.jobCategory=='Human Resources' ? 'selected'
+                          : '' %>>Human Resources</option>
+                        <option value="Information Technology" <%=qualifications.jobCategory=='Information Technology'
+                          ? 'selected' : '' %>>Information Technology</option>
+                        <option value="Installation - Maint - Repair"
+                          <%=qualifications.jobCategory=='Installation - Maint - Repair' ? 'selected' : '' %>
+                          >Installation - Maint - Repair</option>
+                        <option value="Insurance" <%=qualifications.jobCategory=='Insurance' ? 'selected' : '' %>
+                          >Insurance</option>
+                        <option value="Inventory" <%=qualifications.jobCategory=='Inventory' ? 'selected' : '' %>
+                          >Inventory</option>
+                        <option value="Legal" <%=qualifications.jobCategory=='Legal' ? 'selected' : '' %>>Legal</option>
+                        <option value="Legal Admin" <%=qualifications.jobCategory=='Legal Admin' ? 'selected' : '' %>
+                          >Legal Admin</option>
+                        <option value="Management" <%=qualifications.jobCategory=='Management' ? 'selected' : '' %>
+                          >Management</option>
+                        <option value="Manufacturing" <%=qualifications.jobCategory=='Manufacturing' ? 'selected' : ''
+                          %>>Manufacturing</option>
+                        <option value="Marketing" <%=qualifications.jobCategory=='Marketing' ? 'selected' : '' %>
+                          >Marketing</option>
+                        <option value="Media - Journalism - Newspaper"
+                          <%=qualifications.jobCategory=='Media - Journalism - Newspaper' ? 'selected' : '' %>>Media -
+                          Journalism - Newspaper</option>
+                        <option value="Nonprofit - Social Services"
+                          <%=qualifications.jobCategory=='Nonprofit - Social Services' ? 'selected' : '' %>>Nonprofit -
+                          Social Services</option>
+                        <option value="Nurse" <%=qualifications.jobCategory=='Nurse' ? 'selected' : '' %>>Nurse</option>
+                        <option value="Other" <%=qualifications.jobCategory=='Other' ? 'selected' : '' %>>Other</option>
+                        <option value="Pharmaceutical" <%=qualifications.jobCategory=='Pharmaceutical' ? 'selected' : ''
+                          %>>Pharmaceutical</option>
+                        <option value="Professional Services" <%=qualifications.jobCategory=='Professional Services'
+                          ? 'selected' : '' %>>Professional Services</option>
+                        <option value="Purchasing - Procurement"
+                          <%=qualifications.jobCategory=='Purchasing - Procurement' ? 'selected' : '' %>>Purchasing -
+                          Procurement</option>
+                        <option value="QA - Quality Control" <%=qualifications.jobCategory=='QA - Quality Control'
+                          ? 'selected' : '' %>>QA - Quality Control</option>
+                        <option value="Real Estate" <%=qualifications.jobCategory=='Real Estate' ? 'selected' : '' %>
+                          >Real Estate</option>
+                        <option value="Research" <%=qualifications.jobCategory=='Research' ? 'selected' : '' %>>Research
+                        </option>
+                        <option value="Restaurant - Food Service"
+                          <%=qualifications.jobCategory=='Restaurant - Food Service' ? 'selected' : '' %>>Restaurant -
+                          Food Service</option>
+                        <option value="Retail" <%=qualifications.jobCategory=='Retail' ? 'selected' : '' %>>Retail
+                        </option>
+                        <option value="Sales" <%=qualifications.jobCategory=='Sales' ? 'selected' : '' %>>Sales</option>
+                        <option value="Science" <%=qualifications.jobCategory=='Science' ? 'selected' : '' %>>Science
+                        </option>
+                        <option value="Skilled Labor - Trades" <%=qualifications.jobCategory=='Skilled Labor - Trades'
+                          ? 'selected' : '' %>>Skilled Labor - Trades</option>
+                        <option value="Strategy - Planning" <%=qualifications.jobCategory=='Strategy - Planning'
+                          ? 'selected' : '' %>>Strategy - Planning</option>
+                        <option value="Supply Chain" <%=qualifications.jobCategory=='Supply Chain' ? 'selected' : '' %>
+                          >Supply Chain</option>
+                        <option value="Telecommunications" <%=qualifications.jobCategory=='Telecommunications'
+                          ? 'selected' : '' %>>Telecommunications</option>
+                        <option value="Training" <%=qualifications.jobCategory=='Training' ? 'selected' : '' %>>Training
+                        </option>
+                        <option value="Transportation" <%=qualifications.jobCategory=='Transportation' ? 'selected' : ''
+                          %>>Transportation</option>
+                        <option value="Technology" <%=qualifications.jobCategory=='Technology' ? 'selected' : '' %>
+                          >Technology</option>
+                        <option value="Warehouse" <%=qualifications.jobCategory=='Warehouse' ? 'selected' : '' %>
+                          >Warehouse</option>
+                      </select>
+                      </select>
+                      <div class="invalid-feedback">
+                        Please provide a valid User Type.
+                      </div>
+                      <!-- <small>Error message</small> -->
+                    </div>
+                  </div>
+
+                  <input type="submit" value=Update" class="btn  btn-primary btn-lg btn-block mt-5">
+            </form>
+            <%}%>
+
+        </div>
+      </div>
+
+      </div>
+    </section>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+
+    <script src="/assets/js/citizen_update_Dashboard.js"></script>
+</body>
+
+</html>

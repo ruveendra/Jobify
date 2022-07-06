@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Jobify || Home</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <!-- boostrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/public/assets/css/style.css">
+</head>
+
+
+<body>
+
+  <!-- navbar -->
+  <%- include('_nav')%>
+    <!-- navbar -->
+
+    <!-- login -->
+    <!-- <section class="vh-100 bg-image p-5"
+      style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div class="card" style="border-radius: 15px;">
+                <div class="card-body p-5">
+                  <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+                  <form action="/user/register" method="POST">
+
+                    <div class="form-outline mb-4">
+                      <input type="text" id="userName" name="userName" class="form-control form-control-lg" />
+                      <label class="form-label" for="userName">Your Name</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="email" id="userEmail" name="userEmail" class="form-control form-control-lg" />
+                      <label class="form-label" for="userEmail">Your Email</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="password" id="userPassword"  name="userPassword" class="form-control form-control-lg" />
+                      <label class="form-label" for="userPassword">Password</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="password" id="rPassword" name="rPassword" class="form-control form-control-lg" />
+                      <label class="form-label" for="rPassword">Repeat your password</label>
+                    </div>
+
+                    <div class="form-check d-flex justify-content-center mb-5">
+                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
+                      <label class="form-check-label" for="form2Example3g">
+                        I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                      </label>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                      <button type="submit"
+                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                    </div>
+
+                  </form>
+
+                  <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
+                      class="fw-bold text-body"><u>Login here</u></a></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!-- login -->
+
+
+    <!-- register -->
+    <div class="container-fluid px-5 py-4 ">
+      <div class="row">
+        <!-- photo section -->
+        <div class="col-md-3 ">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+            <!-- <1% if(profileImg !==null ){%>
+              <img class="rounded-circle bg-primary mt-5" width="150px" src="/<1%=profileImg%>">
+              <1%1}else{%>
+                <img class="rounded-circle bg-primary mt-5" width="150px" src="/profile.png">
+                <1%}%>
+                  <span class="font-weight-bold">
+                    <1%= user.userName%>
+                  </span>
+                  <span class="text-black-50">
+                    <1%= user.userEmail%>
+                  </span>
+     -->
+            <!-- image upload form -->
+            <form action="/housemaid/myAccount/profileImg/upload" enctype="multipart/form-data" method="POST">
+              <div class="form-group pt-3">
+                <div class="col-md-3">
+                  <input id="Upload photo" name="photo" class="input-file" type="file">
+                </div>
+                <button type="submit" class="btn pl-1">Upload Photo</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+        <!--end of  photo section -->
+        <div class="col-md-4 ">
+          <!-- personal details -->
+          <form id="maid-personal-details-form" method="POST">
+            <fieldset>
+              <!-- Form Name -->
+              <div class="form-group form-group-lg">
+                <label class=" control-label control-label-lg" for="Name">Name</label>
+                <div class="input-group input-group-lg">
+
+
+                  <input id="uFName" name="uFName" type="text" placeholder="First Name"
+                    class=" form-control form-control-lg input border border-secondary">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+
+                  <input id="uLName" name="uLName" type="text" placeholder="Last Name"
+                    class=" form-control form-control-lg input border border-secondary">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="Date Of Birth">
+                  Email
+                </label>
+                <div class="input-group">
+
+                  <input id="uLName" name="uLName" type="email" placeholder="userEmail"
+                    class=" form-control form-control-lg input border border-secondary">
+                </div>
+              </div>
+
+
+              <!-- DOB -->
+              <div class="form-group">
+                <label class="control-label" for="Date Of Birth">
+                  Date Of Birth
+                </label>
+                <div class="input-group">
+
+                  <input id="uDOB" name="uDOB" type="date" placeholder="Date Of Birth"
+                    class=" form-control form-control-lg input border border-secondary">
+                </div>
+              </div>
+
+              <div class="form-group ">
+                <label class="control-label col-xs-12" for="Current Address">Current Address</label>
+                <div class="input-group">
+
+                  <textarea placeholder="current address"
+                    class=" form-control form-control-lg input border border-secondary" rows="2" id="uPAddress"
+                    name="uPAddress"></textarea>
+                </div>
+              </div>
+
+
+              <!-- phone number-->
+              <div class="form-group pt-2">
+                <label class="control-label col-xs-12" for="Phone number ">Phone number </label>
+                <!-- <label class="form-label" for="Phone number ">Phone number </label> -->
+                <!-- <label class="form-label" for="userType">I work in...</label> -->
+                <div class="input-group">
+
+                  <input id="uPhone" name="uPhone" type="text" placeholder="Primary Phone number "
+                    class=" form-control form-control-lg input border border-secondary">
+                </div>
+
+              </div>
+
+
+
+              <!-- NIC:Text input-->
+              <div class="form-group">
+                <label class="control-label" for="Citizenship No.">National Id</label>
+                <div class="input-group">
+
+                  <input id="uNIC" name="uNIC" type="text" placeholder="National Id."
+                    class=" form-control form-control-lg input border border-secondary">
+                </div>
+              </div>
+
+              <!-- Gender : Multiple Radios (inline) -->
+              <div class="form-group">
+                <label class="control-label" for="radios">Gender:</label>
+                <label class="btn btn-lg  btn-toggle">
+                  <input type="radio" name="uGender" id="uGender-0" value="Male" autocomplete="off">
+                  Male
+                </label>
+                <label class="btn btn-lg  btn-toggle">
+                  <input type="radio" name="uGender" id="uGender-1" value="Female" autocomplete="off">
+                  Female
+                </label>
+
+
+              </div>
+
+
+
+            </fieldset>
+        </div>
+
+        <div class="col-md-5 pt-4 pl-4">
+          <!-- industry -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="userType">I work in...</label>
+            <select class="form-select form-control form-control-lg form-select-lg mb-3 border border-secondary"
+              aria-label=".form-select-lg example" id="jobCategory">
+              <option selected="selected" disabled="disabled" value=""> Please select Job Category</option>
+              option value="Accounting">Accounting</option>
+              <option value="Admin & Clerical">Admin & Clerical</option>
+              <option value="Automotive">Automotive</option>
+              <option value="Banking">Banking</option>
+              <option value="Biotech">Biotech</option>
+              <option value="Broadcast">Broadcast</option>
+              <option value="Business Development">Business Development</option>
+              <option value="Construction">Construction</option>
+              <option value="Consultant">Consultant</option>
+              <option value="Customer Service">Customer Service</option>
+              <option value="Design">Design</option>
+              <option value="Distribution">Distribution</option>
+              <option value="Education">Education</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Entry Level">Entry Level</option>
+              <option value="Executive">Executive</option>
+              <option value="Facilities">Facilities</option>
+              <option value="Finance">Finance</option>
+              <option value="Franchise">Franchise</option>
+              <option value="General Business">General Business</option>
+              <option value="General Labor">General Labor</option>
+              <option value="Government">Government</option>
+              <option value="Grocery">Grocery</option>
+              <option value="Health Care">Health Care</option>
+              <option value="Hotel - Hospitality">Hotel - Hospitality</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Installation - Maint - Repair">Installation - Maint - Repair</option>
+              <option value="Insurance">Insurance</option>
+              <option value="Inventory">Inventory</option>
+              <option value="Legal">Legal</option>
+              <option value="Legal Admin">Legal Admin</option>
+              <option value="Management">Management</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Media - Journalism - Newspaper">Media - Journalism - Newspaper</option>
+              <option value="Nonprofit - Social Services">Nonprofit - Social Services</option>
+              <option value="Nurse">Nurse</option>
+              <option value="Other">Other</option>
+              <option value="Pharmaceutical">Pharmaceutical</option>
+              <option value="Professional Services">Professional Services</option>
+              <option value="Purchasing - Procurement">Purchasing - Procurement</option>
+              <option value="QA - Quality Control">QA - Quality Control</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Research">Research</option>
+              <option value="Restaurant - Food Service">Restaurant - Food Service</option>
+              <option value="Retail">Retail</option>
+              <option value="Sales">Sales</option>
+              <option value="Science">Science</option>
+              <option value="Skilled Labor - Trades">Skilled Labor - Trades</option>
+              <option value="Strategy - Planning">Strategy - Planning</option>
+              <option value="Supply Chain">Supply Chain</option>
+              <option value="Telecommunications">Telecommunications</option>
+              <option value="Training">Training</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Warehouse">Warehouse</option>
+            </select>
+            </select>
+            <div class="invalid-feedback">
+              Please provide a valid User Type.
+            </div>
+            <!-- <small>Error message</small> -->
+          </div>
+          <!-- industry -->
+
+          <!-- NIC:Text input-->
+          <!-- NIC:Text input-->
+          <div class="form-group">
+            <label class="control-label" for="carreer ">Career</label>
+            <div class="input-group">
+            <input id="career" name="carreer" type="text" placeholder="career"
+                class=" form-control form-control-lg input border border-secondary">
+            </div>
+          </div>
+
+          <p class="pb-3">
+            <input type="checkbox" name="validation-agreement" id="validation-agreement">
+            By saving the details, I declare by the laws of state that all information are up to date and accurate
+            to best of my knowledge
+          </p>
+          <div class="form-group">
+            <label class="control-label"></label>
+
+          </div>
+          <!-- <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Save Changes</a> -->
+          <button type="submit" class="btn btn-success">Save Details</button>
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+    </div>
+    </section>
+    </form>
+    <!-- End of Reqirements -->
+
+
+
+    <!-- register -->
+
+
+
+
+
+
+    <!-- footer -->
+    <%- include('_footer')%>
+      <!-- footer -->
+
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
